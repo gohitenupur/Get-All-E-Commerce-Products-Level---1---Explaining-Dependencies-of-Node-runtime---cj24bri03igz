@@ -7,8 +7,22 @@ const products = JSON.parse(fs.readFileSync(`${__dirname}/data/products.json`));
 
 // Middlewares
 app.use(express.json());
+const data = {
+  status: "success",
+  message: "Product fetched successfully",
+  data: {
+    product: products
+  }
+};
 
 // Write GET endpoint for sending all the products to client here
 // Endpoint - /api/v1/products
+app.get("/api/v1/products", (req, res) => {
+  // const { id, name, price, quantity } = products;
+  if (products.length === 0) {
+    return res.status(404).json({ message: "Product not found" });
+  }
+  res.status(200).json(data);
+});
 
 module.exports = app;
